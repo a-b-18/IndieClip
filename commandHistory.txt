@@ -1,0 +1,6 @@
+# Create client from typescript template
+npx create-react-app client --template typescript
+
+# Create API from .Net template
+cd API
+dotnet new webapi

@@ -1,11 +1,6 @@
-# Create client from typescript template
-npm install --global expo-cli
-expo init my-project
-
 # Create API from .Net template
 cd API
 dotnet new webapi
 
-# To rebuild web-app
-expo build:web
-cp -r web-build/* ../API/wwwroot/
+# Create client-web from typescript template
+npx create-react-app client-web --template typescript

@@ -1,69 +1,90 @@
-import 'package:flutter/foundation.dart';
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-
-// Our top level main function
-void main() => runApp(new MyApp());
-//end
+import 'package:http/http.dart' as http;
 
 
-class MyApp extends StatelessWidget {
+void main() => runApp(const MyApp());
+
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late Future<Album> futureAlbum;
+
+  @override
+  void initState() {
+    super.initState();
+    futureAlbum = fetchAlbum();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-        title: 'Indie Clip',
-        theme: ThemeData(brightness: Brightness.light),
-        home: Scaffold(body: HomePage()));
+    return MaterialApp(
+      title: 'Fetch Data Example',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Fetch Data Example'),
+        ),
+        body: Center(
+          child: FutureBuilder<Album>(
+            future: futureAlbum,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data!.title);
+              } else if (snapshot.hasError) {
+                return Text('${snapshot.error}');
+              }
+
+              // By default, show a loading spinner.
+              return const CircularProgressIndicator();
+            },
+          ),
+        ),
+      ),
+    );
   }
 }
 
-class HomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
+Future<Album> fetchAlbum() async {
+  final response = await http
+      .get(Uri.parse('https://jsonplaceholder.typicode.com/albums/2'));
 
-    var firstContainer = Container(
-        color: Colors.white,
-        height: 300.0,
-        child:
-        TabBarView(
-            children: [
-              Center(child: Text('Home here')),
-              Center(child: Text('News here')),
-            ]
-        )
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return Album.fromJson(jsonDecode(response.body));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load album');
+  }
+}
+
+class Album {
+  final int userId;
+  final int id;
+  final String title;
+
+  const Album({
+    required this.userId,
+    required this.id,
+    required this.title,
+  });
+
+  factory Album.fromJson(Map<String, dynamic> json) {
+    return Album(
+      userId: json['userId'],
+      id: json['id'],
+      title: json['title'],
     );
-    var secondContainer = Container(
-      color: Colors.lightBlue,
-      child:
-      TabBar(tabs: [Tab(text: 'Home'), Tab(text: 'News')],
-        labelColor: Colors.black,
-        indicatorColor: Colors.green,),
-    );
-
-
-    // Platform aware adjustments
-    var column = Column();
-    if (!kIsWeb) {
-    column = Column(
-        children: [
-          firstContainer,
-          secondContainer,
-        ],
-      );
-    } else {
-      column = Column(
-        children: [
-          secondContainer,
-          firstContainer,
-        ],
-      );
-    }
-
-    return ListView(children: [
-      DefaultTabController(
-          length: 2,
-          initialIndex: 0,
-          child: column,
-      )
-    ]);
   }
 }

@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "750069275226",
+    "project_id": "indieclip-366fe",
+    "storage_bucket": "indieclip-366fe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:750069275226:android:1ad40ec40d60c08f771663",
+        "android_client_info": {
+          "package_name": "com.indieclip.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "750069275226-4u4l8mrrffhv5g0g9lqhvp6g9emn6q6k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfwzDaXW82obLvvxJPg8EWylAu9qJqOwY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "750069275226-4u4l8mrrffhv5g0g9lqhvp6g9emn6q6k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "750069275226-l2sjaqbdft894pndi1ohv6nj9im8tg8f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.indieclip.mobile"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,25 +1,38 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { TabPanel, useTabs } from './TabIndex';
+import { TabSelector } from './TabSelector';
 
 function App() {
+
+  const [selectedTab, setSelectedTab] = useTabs([
+    'Login',
+    'Profile',
+  ]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+
+    <>
+      <nav className="flex border-b border-gray-300">
+        <TabSelector
+          isActive={selectedTab === 'Login'}
+          onClick={() => setSelectedTab('Login')}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          Login
+        </TabSelector>
+        <TabSelector
+          isActive={selectedTab === 'Profile'}
+          onClick={() => setSelectedTab('Profile')}
+        >
+          Profile
+        </TabSelector>
+      </nav>
+      <div className="p-4">
+        <TabPanel hidden={selectedTab !== 'Login'}>Login</TabPanel>
+        <TabPanel hidden={selectedTab !== 'Profile'}>Profile</TabPanel>
+      </div>
+    </>
   );
 }
 

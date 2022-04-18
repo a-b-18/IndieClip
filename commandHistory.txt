@@ -3,4 +3,4 @@ cd API
 dotnet new webapi
 
 # Create client-web from typescript template
-npx create-react-app client-web --template typescript
+npx create-react-app client_web --template typescript
